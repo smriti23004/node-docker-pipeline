@@ -3,8 +3,6 @@
 
 This repository serves as a proof-of-concept for modern cloud-native infrastructure, demonstrating the end-to-end operational lifecycle of a Node.js/Express backend. It highlights the integration of application development with enterprise-grade DevSecOps practices, featuring a fully automated, parallel CI/CD pipeline and an optimized, secure Docker container deployment.
 
-## Architecture & Workflow
-
 ## System Architecture
 
 ```mermaid
@@ -41,6 +39,13 @@ graph TD
     %% Styling
     style Gate fill:#f9f,stroke:#333,stroke-width:2px
     style GHCR fill:#5c9,stroke:#333,stroke-width:2px
+```
+
+## Architecture & Workflow
+
+The infrastructure is defined entirely as code (IaC) and automated via GitHub Actions.
+
+## Architecture & Workflow
 
 The infrastructure is defined entirely as code (IaC) and automated via GitHub Actions.
 
