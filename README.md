@@ -38,3 +38,40 @@ This containerized API is completely portable and can be executed on any machine
 **1. Pull and run the container in the background:**
 ```bash
 docker run -d -p 3000:3000 ghcr.io/<YOUR_GITHUB_USERNAME>/node-docker-pipeline/node-api:latest
+
+## System Architecture
+
+```mermaid
+graph TD
+    %% Define Nodes
+    Dev[Developer]
+    Repo[GitHub Repository]
+    Actions[GitHub Actions CI/CD]
+    Test[Job: Node.js Test Suite]
+    Sec[Job: Aqua Trivy Security Scan]
+    Gate{Quality Gate}
+    Build[Job: Docker Build]
+    GHCR[(GitHub Container Registry)]
+    Cloud[Target Server e.g., Killercoda/AWS]
+
+    %% Define Flow
+    Dev -->|git push| Repo
+    Repo -->|Triggers| Actions
+    
+    %% Parallel Execution
+    Actions --> Test
+    Actions --> Sec
+    
+    %% Gate
+    Test --> Gate
+    Sec --> Gate
+    
+    %% Deployment
+    Gate -->|Both Pass| Build
+    Gate -.->|Failure| Halt[Pipeline Halted]
+    Build -->|Push Artifact| GHCR
+    GHCR -->|docker pull -p 3000:3000| Cloud
+
+    %% Styling
+    style Gate fill:#f9f,stroke:#333,stroke-width:2px
+    style GHCR fill:#5c9,stroke:#333,stroke-width:2px
